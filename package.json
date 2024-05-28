@@ -52,5 +52,12 @@
     "unbuild": "^2.0.0",
     "vite": "^5.2.8",
     "vitest": "^1.5.0"
+  },
+  "dependencies": {
+    "@clickhouse/client": "^1.0.2",
+    "@clickhouse/client-common": "^1.0.2",
+    "clickcache": "^3.0.6",
+    "clickhouse-ts": "^2.0.4",
+    "ioredis": "^5.4.1"
   }
 }
