@@ -94,9 +94,11 @@ export async function getmessPage(options: GetmessOptions) {
    * 将 redis 中已读消息的 message_id 标记为已读
    */
   const readed = await readedmess(options.user_id)
-  for (const mess of messes)
-    mess.version = readed.includes(mess.message_id) ? 2 : 1
-
+  readed.forEach((readedid) => {
+    const mess = messes.find(mess => mess.message_id === readedid)
+    if (mess && mess.version === 1)
+      mess.version = 2
+  })
   /**
    * 获取消息总数，计算分页
    */
