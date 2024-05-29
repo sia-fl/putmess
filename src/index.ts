@@ -73,7 +73,7 @@ export async function putmess(values: PutmessOptions[]) {
   })
 }
 
-interface GetmessOptions {
+export interface GetmessOptions {
   user_id: string
   page: number
   pageSize: number
@@ -97,7 +97,20 @@ export async function getmessPage(options: GetmessOptions) {
   for (const mess of messes)
     mess.version = readed.includes(mess.message_id) ? 2 : 1
 
-  return messes
+  /**
+   * 获取消息总数，计算分页
+   */
+  const result = await clickhouse.query({
+    query: `SELECT count() as count FROM message FINAL WHERE user_id = '${options.user_id}'`,
+    format: 'JSONEachRow',
+  })
+  const countSelected = await result.json() as { count: string }[]
+  /**
+   * 计算总页数
+   */
+  const total = Number.parseInt(countSelected[0].count as unknown as string)
+  const pageCount = Math.ceil(total / options.pageSize)
+  return { pageCount, list: messes }
 }
 
 /**

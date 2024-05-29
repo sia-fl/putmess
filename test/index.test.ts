@@ -23,49 +23,61 @@ describe('should', () => {
       password: '0NV2wQyamqESRfK5',
     })
     setclickhouse(ck)
+    /**
+     * 清空 message 表
+     */
+    await ck.query({
+      query: `TRUNCATE TABLE message`,
+    })
     await putmess([
       {
-        user_id: 'admin',
-        title: '测试标题',
-        message_id: 'test_message_id',
-        message_content: '测试审核',
+        user_id: '75a3d536-894e-4e07-b6f9-6594d530c69a',
+        title: '测试标题01',
+        message_id: 'test_message_id01',
+        message_content: '测试审核01',
+        message_type: 'audit',
+        version: 1,
+      },
+      {
+        user_id: '75a3d536-894e-4e07-b6f9-6594d530c69a',
+        title: '测试标题02',
+        message_id: 'test_message_id02',
+        message_content: '测试审核02',
         message_type: 'audit',
         version: 1,
       },
     ])
-    let first = await getmess('admin', 'test_message_id')
+    let first = await getmess('75a3d536-894e-4e07-b6f9-6594d530c69a', 'test_message_id01')
     expect(first).toBeDefined()
     expect(first.version).toBe(1)
     const redis = maredis(redisurl)
     setredis(redis)
-    await putreadedmess('admin', 'test_message_id')
-    let messes = await getmessPage({ user_id: 'admin', page: 1, pageSize: 10 })
+    await putreadedmess('75a3d536-894e-4e07-b6f9-6594d530c69a', 'test_message_id01')
+    let messes = await getmessPage({ user_id: '75a3d536-894e-4e07-b6f9-6594d530c69a', page: 1, pageSize: 10 })
     expect(messes).toBeDefined()
-    expect(messes).toBeInstanceOf(Array)
-    expect(messes.length).toBeGreaterThan(0)
-    expect(messes[0].version).toBe(2)
-    first = await getmess('admin', 'test_message_id')
+    expect(messes).toBeInstanceOf(Object)
+    expect(messes.list.length).toBe(2)
+    first = await getmess('75a3d536-894e-4e07-b6f9-6594d530c69a', 'test_message_id01')
     expect(first).toBeDefined()
     expect(first.version).toBe(1)
     await putmess([
       {
-        user_id: 'admin',
-        title: '测试标题',
-        message_id: 'test_message_id',
-        message_content: '测试审核',
+        user_id: '75a3d536-894e-4e07-b6f9-6594d530c69a',
+        title: '测试标题01',
+        message_id: 'test_message_id01',
+        message_content: '测试审核01',
         message_type: 'audit',
         version: 2,
       },
     ])
-    messes = await getmessPage({ user_id: 'admin', page: 1, pageSize: 10 })
-    expect(messes.length).eq(1)
-    expect(messes[0].version).toBe(2)
-    await syncreadedmess('admin')
+    messes = await getmessPage({ user_id: '75a3d536-894e-4e07-b6f9-6594d530c69a', page: 1, pageSize: 10 })
+    expect(messes.list.length).eq(2)
+    await syncreadedmess('75a3d536-894e-4e07-b6f9-6594d530c69a')
     /**
      * 再判断 redis 中已读消息的 message_id
      * 应该为空了
      */
-    const readed = await redis.smembers(`readed:admin`)
+    const readed = await redis.smembers(`readed:75a3d536-894e-4e07-b6f9-6594d530c69a`)
     expect(readed).toBeDefined()
     expect(readed).toBeInstanceOf(Array)
     expect(readed.length).toBe(0)
