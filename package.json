@@ -1,16 +1,16 @@
 {
-  "name": "@elonehoo/starter-ts",
+  "name": "putmess",
   "type": "module",
-  "version": "0.0.3",
-  "description": "Starter template for TypeScript library",
-  "author": "Elone Hoo <hi@elonehoo.me>",
+  "version": "0.0.0",
+  "description": "站内信的标准实现",
+  "author": "杨伟杰 <sia-fl@outlook.com>",
   "license": "MIT",
-  "homepage": "https://github.com/elonehoo/starter-ts",
+  "homepage": "https://github.com/sia-fl/putmess",
   "repository": {
     "type": "git",
-    "url": "https://github.com/elonehoo/starter-ts"
+    "url": "https://github.com/sia-fl/putmess"
   },
-  "bugs": "https://github.com/elonehoo/starter-ts/issues",
+  "bugs": "https://github.com/sia-fl/putmess/issues",
   "keywords": [
     "template",
     "TypeScript"
