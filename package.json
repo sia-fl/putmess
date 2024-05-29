@@ -1,7 +1,7 @@
 {
   "name": "putmess",
   "type": "module",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "站内信的标准实现",
   "author": "杨伟杰 <sia-fl@outlook.com>",
   "license": "MIT",
