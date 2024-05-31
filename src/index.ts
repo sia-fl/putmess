@@ -86,10 +86,10 @@ export interface GetmessOptions {
  */
 export async function getmessPage(options: GetmessOptions) {
   const resultSet = await clickhouse.query({
-    query: `SELECT message_id, title, version FROM message FINAL WHERE user_id = '${options.user_id}' ORDER BY message_id DESC LIMIT ${(options.page - 1) * options.pageSize}, ${options.pageSize}`,
+    query: `SELECT message_id, message_type, title, version, timestamp FROM message FINAL WHERE user_id = '${options.user_id}' ORDER BY message_id DESC LIMIT ${(options.page - 1) * options.pageSize}, ${options.pageSize}`,
     format: 'JSONEachRow',
   })
-  const messes = await resultSet.json() as Pick<Message, 'message_id' | 'title' | 'version'>[]
+  const messes = await resultSet.json() as Pick<Message, 'message_id' | 'message_type' | 'title' | 'version' | 'timestamp'>[]
   /**
    * 将 redis 中已读消息的 message_id 标记为已读
    */
