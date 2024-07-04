@@ -112,7 +112,7 @@ export async function getmessPage(options: GetmessOptions) {
    */
   const total = Number.parseInt(countSelected[0].count as unknown as string)
   const pageCount = Math.ceil(total / options.pageSize)
-  return { pageCount, list: messes }
+  return { pageCount, total, list: messes }
 }
 
 /**
